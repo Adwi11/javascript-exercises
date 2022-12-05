@@ -18,7 +18,17 @@ const power = function() {
 	
 };
 
-const factorial = function() {
+const factorial = function(num) {
+  let res;
+  if (num===0){
+    return 1
+  }
+  
+  else {
+    res= factorial(num-1)*num;
+  }
+
+  return res
 	
 };
 
