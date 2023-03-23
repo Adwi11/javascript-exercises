@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #table {
+        border-collapse: collapse;
+        width: 100%;
+        align-self: center;
+      }
+
+      th,
+      td {
+        border: 2px solid black;
+        padding: 10px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="myTable">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Pages</th>
+        <th>Read</th>
+        <th>Remove</th>
+      </tr>
+    </table>
+    <form id="myForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" /><br /><br />
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author" /><br /><br />
+      <label for="pages">Pages:</label>
+      <input type="number" id="pages" name="pages" /><br /><br />
+      <label for="read">Read:</label>
+      <input type="text" id="read" name="read" /><br /><br />
+      <button type="submit" id="submitBtn" class="submitBtn">Submit</button>
+    </form>
+  </body>
+  <script>
+    let myLibrary = [];
+
+    function Book(title, author, pages, flag) {
+      this.title = title;
+      this.author = author;
+      this.pages = pages;
+      this.flag = flag;
+      this.idx = myLibrary.length + 2;
+    }
+    Book.prototype.info = function () {
+      let read = "";
+      if (this.flag) {
+        read = "yes";
+      } else {
+        read = "not yet";
+      }
+      return `${(this, title)},${this.author},${this.pages},${read}`;
+    };
+
+    function addBookToLibrary(objBook) {
+      myLibrary.push(objBook);
+      let key = {
+        0: "title",
+        1: "author",
+        2: "pages",
+        3: "flag",
+      };
+      let table = document.getElementById("myTable");
+
+      let row = table.insertRow();
+
+      for (let i = 0; i < 4; i++) {
+        let cell = row.insertCell(i);
+        cell.innerHTML = objBook[key[i]];
+      }
+      let btnCell = row.insertCell(4);
+      let deleteBtn = document.createElement("button");
+      deleteBtn.innerHTML = "Delete";
+      deleteBtn.className = "dltBtn";
+      btnCell.appendChild(deleteBtn);
+    }
+
+    // let currBook = new Book("The birth of prog.", "Adwitiya", 46, true);
+    // let currBook2 = new Book("The birth ", "Adwitiya", 10, true);
+    // addBookToLibrary(currBook);
+    // addBookToLibrary(currBook2);
+
+    let table = document.getElementById("myTable");
+    let form = document.getElementById("myForm");
+    let button = document.getElementById("submitBtn");
+    let placeHolderBtn = document.getElementsByClassName("dltBtn");
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      let formData = new FormData(form); // API (makes an instance of the form data for us to access it)
+      let author = formData.get("author");
+      let title = formData.get("title");
+      let pages = formData.get("pages");
+      let read = formData.get("read");
+
+      let newBook = new Book(title, author, pages, read);
+      addBookToLibrary(newBook);
+      form.reset();
+
+      placeHolderBtn = document.getElementsByClassName("dltBtn");
+    });
+    //TODO:DELETE ROW FUNCTIONALITY
+    placeHolderBtn.addEventListener("click", function (event) {
+      console.log(event.target.id);
+      let row = event.parentNode.parentNode; // first we identify the cell then we identify the row hence no extra data needed to identify idx
+      table.deleteRow(row.rowIndex);
+    });
+  </script>
+</html>
