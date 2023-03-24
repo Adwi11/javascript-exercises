@@ -6,7 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      #table {
+      @font-face {
+        font-family: "San Francisco", sans-serif;
+        src: url("C:/Users/Adwit/Downloads/SF-Pro.dmg");
+      }
+
+      .heading {
+        text-align: center;
+      }
+      #myTable {
         border-collapse: collapse;
         width: 100%;
         align-self: center;
@@ -18,29 +26,70 @@
         padding: 10px;
         text-align: left;
       }
+
+      #myForm {
+        display: flex;
+        justify-content: center;
+        align-self: center;
+        margin-top: 20px;
+        align-content: center;
+      }
+
+      .heading {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        font-family: "San Francisco", sans-serif;
+      }
+      .moving-background {
+        background-image: url("images/library.jpg");
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        animation: slide 20s linear infinite;
+        z-index: 1;
+      }
+
+      @keyframes slide {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 100% 0;
+        }
+      }
+      .content {
+        z-index: 2;
+      }
     </style>
   </head>
   <body>
-    <table id="myTable">
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Pages</th>
-        <th>Read</th>
-        <th>Remove</th>
-      </tr>
-    </table>
-    <form id="myForm">
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title" /><br /><br />
-      <label for="author">Author:</label>
-      <input type="text" id="author" name="author" /><br /><br />
-      <label for="pages">Pages:</label>
-      <input type="number" id="pages" name="pages" /><br /><br />
-      <label for="read">Read:</label>
-      <input type="text" id="read" name="read" /><br /><br />
-      <button type="submit" id="submitBtn" class="submitBtn">Submit</button>
-    </form>
+    <!-- <div class="moving-background"></div> -->
+    <div class="content">
+      <h1 class="heading">Library Entry System</h1>
+      <table id="myTable">
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Read</th>
+          <th>Remove</th>
+        </tr>
+      </table>
+      <form id="myForm">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" /><br /><br />
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" /><br /><br />
+        <label for="pages">Pages:</label>
+        <input type="number" id="pages" name="pages" /><br /><br />
+        <label for="read">Read:</label>
+        <input type="text" id="read" name="read" /><br /><br />
+        <button type="submit" id="submitBtn" class="submitBtn">Submit</button>
+      </form>
+    </div>
   </body>
   <script>
     let myLibrary = [];
@@ -93,7 +142,7 @@
     let table = document.getElementById("myTable");
     let form = document.getElementById("myForm");
     let button = document.getElementById("submitBtn");
-    let placeHolderBtn = document.getElementsByClassName("dltBtn");
+    let placeHolderBtn = document;
     button.addEventListener("click", function (event) {
       event.preventDefault();
 
@@ -111,9 +160,11 @@
     });
     //TODO:DELETE ROW FUNCTIONALITY
     placeHolderBtn.addEventListener("click", function (event) {
-      console.log(event.target.id);
-      let row = event.parentNode.parentNode; // first we identify the cell then we identify the row hence no extra data needed to identify idx
-      table.deleteRow(row.rowIndex);
+      console.log(event);
+      if (event.target.className === "dltBtn") {
+        let row = event.target.parentNode.parentNode; // first we identify the cell then we identify the row hence no extra data needed to identify idx
+        table.deleteRow(row.rowIndex);
+      }
     });
   </script>
 </html>
